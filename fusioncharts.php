@@ -9,6 +9,7 @@
                 new FusionCharts(__constructorOptions__);
             });
         </script>
+        
 EOD;
         private $renderTemplate = <<<EOD
         <script type='text/javascript'>
