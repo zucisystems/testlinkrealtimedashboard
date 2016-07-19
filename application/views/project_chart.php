@@ -9,7 +9,91 @@ plotOptions: {
     }
 }
 </style>
+<style>
+body {font-family: "Lato", sans-serif;}
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
 
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+</style>
+<style>
+    html,
+    body,
+    #myChart {
+      width: 60%;
+      height: 50%;
+    }
+  </style>
+  <style>
+h1, h1.title {
+    background: none repeat scroll 0 0 #005599;
+    border: 1px solid black;
+    color: white;
+    font-size: 130%;
+    font-weight: bold;
+    margin: 0 0 4px;
+    padding: 3px;
+    text-align: left;
+}
+div.workBack {
+    background: none repeat scroll 0 0 #CCDDEE;
+    border-style: groove;
+    border-width: thin;
+    margin: 3px;
+    padding: 3px 3px 50px;
+    text-align: left;
+}
+table.smallGrey {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid black;
+    font-size: smaller;
+    margin-bottom: 10px;
+    margin-right: 0;
+}
+.chosen-container {
+    -moz-user-select: none;
+    display: inline-block;
+    font-size: 13px;
+    position: relative;
+    vertical-align: middle;
+}
+</style>
 <script type="text/javascript">
 $(document).ready(function() {
     var options = {
@@ -32,10 +116,10 @@ $(document).ready(function() {
         },
         yAxis: {
             title: {
-                text: 'Requests'
+                text: 'Status Result'
             },
             plotLines: [{
-                value: 0,
+                value: b,
                 width: 1,
                 color: '#808080'
             }]
@@ -71,17 +155,21 @@ $(document).ready(function() {
     options.xAxis.categories = json[0]['data'];
         options.series[0] = json[1];
         options.series[1] = json[2];
-        options.series[2] = json[3];
+       options.series[2] = json[3];
         chart = new Highcharts.Chart(options);
     });
 });
 </script>
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <title>Stacked column chart with data from MySQL using Highcharts</title>
-		
+<div style="width:1347">
+<head>
+<h1> Overall Project Dashboard</h1>
+  <ul class="tab">
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a></li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Automation Status</a></li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">Other Related Reports</a></li>
+       		
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript">
         $(document).ready(function() {
@@ -142,16 +230,112 @@ $(document).ready(function() {
             $.getJSON("project_data.php", function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
-                options.series[1] = json[2];
-                options.series[2] = json[3];
+               // options.series[1] = json[2];
+                //options.series[2] = json[3];
                 chart = new Highcharts.Chart(options);
             });
         });
         </script>
         <script src="http://code.highcharts.com/highcharts.js"></script>
         <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    </head>
-    <body>
-        <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
-    </body>
+</head>
+
+<body>
+<div id="pstatus" class="tabcontent">
+
+  <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
+  <tr>
+<td>
+<h3>Project Health</h3>
+</td>
+</tr>
+<tr>
+<td>
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</td>
+</tr>
+</table>
+</div>
+
+<div id="astatus" class="tabcontent">
+<tr>
+<td>
+<h3>Automation Status</h3>
+</td>
+</tr>
+  <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+</div>
+
+<div id="otstatus" class="tabcontent">
+  <h3>Other Related Reports</h3>
+  
+  
+  <table class="smallGrey" style="width:200%;overflow: visible;">
+<tr>
+<td>
+<div class="chosen-container chosen-container-single" style="width: 85%;" title="">
+<?php $testplans['#'] = 'Please Select'; ?>
+<label for="testplan">Testplan: </label><?php echo form_dropdown('testplan_id', $testplans, '#', 'id="testplan"'); ?><br />
+</td>
+</div>
+</tr>
+<tr>
+
+<td>
+ <?php $build['#'] = 'Please Select'; ?>
+<label for="city">Build: </label><?php echo form_dropdown('build_id', $build, '#', 'id="build"'); ?><br />
+</td>
+</tr>
+</table>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ <script type="text/javascript">// <![CDATA[
+ $(document).ready(function(){
+ $('#testplan').change(function(){ //any select change on the dropdown with id testplan trigger this code
+ $("#build > option").remove(); //first of all clear select items
+ $("#testcase > option").remove();
+ var testplan_id = $('#testplan').val(); // here we are taking testplan id of the selected one.
+ $.ajax({
+ type: "POST",
+ 
+url: 'index.php/reportdashboard/getbuild/'+testplan_id, 
+ //url: "localhost/dashboard/get_build/"+testplan_id
+//here we are calling our user controller and get_build method with the testplan_id
+ data: { 'testplanid': testplan_id},
+ success: function(build) //we're calling the response json array 'build'
+ {
+ $.each(build,function(id,name) //here we're doing a foeach loop round each city with id as the key and city as the value
+ {
+ var opt = $('<option />'); // here we're creating a new select option with for each city
+ opt.val(id);
+ opt.text(name);
+ $('#build').append(opt); //here we will append these new select options to a dropdown with the id 'build'
+ });
+ }
+ 
+ });
+ 
+ });
+ });
+ // ]]>
+</script>
+<script>
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+</body>
+</div>
 </html>
+
+
