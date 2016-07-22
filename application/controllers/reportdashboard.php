@@ -9,17 +9,18 @@ public function __construct()
 }
 public function index()
 {
-$data['testplans'] = $this -> testplanfunction ->get_plans();
+//$data['testplans'] = $this -> testplanfunction ->get_plans();
+$data['testprojects']=$this -> testplanfunction ->get_projects();
 //$this -> load -> view('data');
 $this -> load -> view('project_chart', $data);
 }
- function getbuild($testplan)
+ function getplan($testroject)
 {	 
  
- //print_r($testplan);exit;
+ //print_r($testroject);exit;
  $this->load->model('buildfunction');
  header('Content-Type: application/x-json; charset=utf-8');
- echo(json_encode($this->buildfunction->getbuild($testplan)));
+ echo(json_encode($this->buildfunction->getplan($testroject)));
 }
  
 }?>
