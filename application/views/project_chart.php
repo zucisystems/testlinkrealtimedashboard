@@ -93,6 +93,13 @@ table.smallGrey {
     position: relative;
     vertical-align: middle;
 }
+.chosen-container1 {
+    -moz-user-select: none;
+    display: inline-block;
+    font-size: 13px;
+    position: relative;
+    vertical-align: middle;
+}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -156,6 +163,72 @@ $(document).ready(function() {
         options.series[0] = json[1];
         options.series[1] = json[2];
        options.series[2] = json[3];
+        chart = new Highcharts.Chart(options);
+    });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var options = {
+        chart: {
+            renderTo: 'container1',
+            type: 'column',
+            marginRight: 130,
+            marginBottom: 25
+        },
+        title: {
+            text: 'Project Requests',
+            x: -20 //center
+        },
+        subtitle: {
+            text: '',
+            x: -20
+        },
+        xAxis: {
+            categories: []
+        },
+        yAxis: {
+            title: {
+                text: 'Status Result'
+            },
+            plotLines: [{
+                value: b,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                    this.x +': '+ this.y;
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -10,
+            y: 100,
+            borderWidth: 0
+        },
+         plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                }
+                }
+            }
+        },
+        series: []
+    }
+   
+    $.getJSON("project_data1.php", function(json) {
+    options.xAxis.categories = json[0]['data'];
+        options.series[0] = json[1];
+        options.series[1] = json[2];
+       //options.series[2] = json[3];
         chart = new Highcharts.Chart(options);
     });
 });
@@ -230,8 +303,8 @@ $(document).ready(function() {
             $.getJSON("project_data.php", function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
-               // options.series[1] = json[2];
-                //options.series[2] = json[3];
+                options.series[1] = json[2];
+                options.series[2] = json[3];
                 chart = new Highcharts.Chart(options);
             });
         });
@@ -242,48 +315,53 @@ $(document).ready(function() {
 
 <body>
 <div id="pstatus" class="tabcontent">
-
-  <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
-  <tr>
+<table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
+<tr>
 <td>
 <h3>Project Health</h3>
 </td>
 </tr>
 <tr>
 <td>
-<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
 </td>
 </tr>
 </table>
 </div>
 
 <div id="astatus" class="tabcontent">
+<table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
 <tr>
 <td>
 <h3>Automation Status</h3>
 </td>
 </tr>
-  <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+<tr>
+<td>
+<div id="container1" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
+</td>
+</tr>
+</table>
 </div>
 
 <div id="otstatus" class="tabcontent">
   <h3>Other Related Reports</h3>
   
   
-  <table class="smallGrey" style="width:200%;overflow: visible;">
+  <table class="smallGrey" style="width:200%;height:200%overflow: visible;">
 <tr>
 <td>
 <div class="chosen-container chosen-container-single" style="width: 85%;" title="">
-<?php $testplans['#'] = 'Please Select'; ?>
-<label for="testplan">Testplan: </label><?php echo form_dropdown('testplan_id', $testplans, '#', 'id="testplan"'); ?><br />
+<?php $testprojects['#'] = 'Please Select'; ?>
+<label for="testproject">Testproject: </label><?php echo form_dropdown('testproject_id', $testprojects, '#', 'id="testproject"'); ?><br />
 </td>
 </div>
 </tr>
 <tr>
 
 <td>
- <?php $build['#'] = 'Please Select'; ?>
-<label for="city">Build: </label><?php echo form_dropdown('build_id', $build, '#', 'id="build"'); ?><br />
+ <?php $plan['#'] = 'Please Select'; ?>
+<label for="city">TestPlan: </label><?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
 </td>
 </tr>
 </table>
@@ -291,25 +369,25 @@ $(document).ready(function() {
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">// <![CDATA[
  $(document).ready(function(){
- $('#testplan').change(function(){ //any select change on the dropdown with id testplan trigger this code
- $("#build > option").remove(); //first of all clear select items
+ $('#testproject').change(function(){ //any select change on the dropdown with id testproject trigger this code
+ $("#plan > option").remove(); //first of all clear select items
  $("#testcase > option").remove();
- var testplan_id = $('#testplan').val(); // here we are taking testplan id of the selected one.
+ var testproject_id = $('#testproject').val(); // here we are taking testproject id of the selected one.
  $.ajax({
  type: "POST",
  
-url: 'index.php/reportdashboard/getbuild/'+testplan_id, 
- //url: "localhost/dashboard/get_build/"+testplan_id
-//here we are calling our user controller and get_build method with the testplan_id
- data: { 'testplanid': testplan_id},
- success: function(build) //we're calling the response json array 'build'
+url: 'index.php/reportdashboard/getplan/'+testproject_id, 
+ //url: "localhost/dashboard/get_plan/"+testproject_id
+//here we are calling our user controller and get_plan method with the testproject_id
+ data: { 'testprojectid': testproject_id},
+ success: function(plan) //we're calling the response json array 'plan'
  {
- $.each(build,function(id,name) //here we're doing a foeach loop round each city with id as the key and city as the value
+ $.each(plan,function(id,name) //here we're doing a foeach loop round each city with id as the key and city as the value
  {
  var opt = $('<option />'); // here we're creating a new select option with for each city
  opt.val(id);
  opt.text(name);
- $('#build').append(opt); //here we will append these new select options to a dropdown with the id 'build'
+ $('#plan').append(opt); //here we will append these new select options to a dropdown with the id 'plan'
  });
  }
  
@@ -334,6 +412,72 @@ function openCity(evt, cityName) {
     evt.currentTarget.className += " active";
 }
 </script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            var options = {
+                chart: {
+                    renderTo:'container1',
+                    type: 'column',
+                    marginRight: 130,
+                    marginBottom: 25
+                },
+                title: {
+                    text: 'Project Status',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    categories: []
+                },
+                yAxis: {
+                    title: {
+                        text: 'Results'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    formatter: function() {
+                            return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y;
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -10,
+                    y: 100,
+                    borderWidth: 0
+                },
+                 plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: []
+            }
+           
+            $.getJSON("project_data1.php", function(json) {
+                options.xAxis.categories = json[0]['data'];
+                options.series[0] = json[1];
+                options.series[1] = json[2];
+              //  options.series[2] = json[3];
+                chart = new Highcharts.Chart(options);
+            });
+        });
+        </script>
 </body>
 </div>
 </html>
