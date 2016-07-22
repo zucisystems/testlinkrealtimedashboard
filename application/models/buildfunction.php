@@ -3,18 +3,21 @@ class Buildfunction extends CI_Model {
 public function __construct() {
  $this -> load -> database(); 
 }
-function getbuild($testplan = null){
+function getplan($testroject = null){
  $this->db->select('id,name');
- if($testplan != NULL){
- $this->db->where('testplan_id', $testplan);
+ if($testroject != NULL){
+$array = array('parent_id' => $testroject, 'node_type_id' => 5);
+$this->db->where($array); 
+
+ //$this->db->where('parent_id', $testroject and 'node_type_id' ='5') ;
  } 
- $query = $this->db->get('builds');
- $build = array();
+ $query = $this->db->get('nodes_hierarchy');
+ $plan = array();
  if($query->result()){
  foreach ($query->result() as $city) {
- $build[$city->id] = $city->name;
+ $plan[$city->id] = $city->name;
  }
- return $build;
+ return $plan;
  }else{
  return FALSE;
  }

@@ -40,6 +40,34 @@ if ($query -> result()) {
  return FALSE;
  }
 }
+function get_projects() {
+ $this -> db -> select('*');
+
+ $this->db->where('node_type_id','1');
+
+ $query = $this -> db -> get('nodes_hierarchy');
+ 
+$testprojects = array();
+ 
+if ($query -> result()) {
+ foreach ($query->result() as $testproject) 
+ {
+ $testprojects[$testproject -> id] = $testproject -> name;
+ }
+ return $testprojects;
+ } else {
+ return FALSE;
+ }
+ }
+
+
+
+
+
+
+
+
+
  
  
 }
