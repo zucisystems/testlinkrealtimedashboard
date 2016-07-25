@@ -5,6 +5,7 @@ public function __construct() {
  $this -> load -> database();
  
 }
+
  
 function get_plans() {
  $this -> db -> select('id,name');
