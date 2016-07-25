@@ -22,5 +22,10 @@ $this -> load -> view('project_chart', $data);
  header('Content-Type: application/x-json; charset=utf-8');
  echo(json_encode($this->buildfunction->getplan($testroject)));
 }
+function getchart_plan($testroject)
+{	
+$data['testprojects']=$this -> testplanfunction ->get_projects();
+$this -> load -> view('project_chart', $data);
+}
  
 }?>
