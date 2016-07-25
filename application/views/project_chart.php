@@ -344,34 +344,64 @@ $(document).ready(function() {
 </table>
 </div>
 
-<div id="otstatus" class="tabcontent">
-  <h3>Other Related Reports</h3>
-  
-  
-  <table class="smallGrey" style="width:200%;height:200%overflow: visible;">
+<div id="otstatus" class="tabcontent">    
+<table class="smallGrey" style="width:200%;height:200%overflow: visible;">
 <tr>
 <td>
+<h3>Other Related Reports</h3>
+</td>
+</tr>
+<tr>
+<td>
+<label for="reporttype"> Report Type:</label>
+<select id ="reporttype">
+<option value='1'> Overall Project</option>
+<option value='2'> Overall Test Plan</option><option value='3'> 1</option>
+<option value='4'> Overall Build</option>
+</select>
+</td>
+</tr>
 <div class="chosen-container chosen-container-single" style="width: 85%;" title="">
+<tr>
+<td>
 <?php $testprojects['#'] = 'Please Select'; ?>
 <label for="testproject">Testproject: </label><?php echo form_dropdown('testproject_id', $testprojects, '#', 'id="testproject"'); ?><br />
 </td>
-</div>
 </tr>
 <tr>
-
 <td>
  <?php $plan['#'] = 'Please Select'; ?>
 <label for="city">TestPlan: </label><?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
 </td>
 </tr>
+<tr>
+<td>
+ <?php $build['#'] = 'Please Select'; ?>
+<label for="city">Build: </label><?php echo form_dropdown('build_id', $build, '#', 'id="build"'); ?><br />
+</td>
+</tr>
+<tr>
+<td>
+ <?php $plan['#'] = 'Please Select'; ?>
+<a target="workframe" href="lib/results/resultsByStatus.php?type=f&format=0&tplan_id=73 ">Release Report</a>
+</td>
+</tr>
+<tr>
+
+<td>
+<a target="workframe" href="index.php/reportdashboard/getplan+testproject_id" >Build Trend Report</a>
+
+</td>
+</tr>
 </table>
 </div>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">// <![CDATA[
  $(document).ready(function(){
  $('#testproject').change(function(){ //any select change on the dropdown with id testproject trigger this code
  $("#plan > option").remove(); //first of all clear select items
- $("#testcase > option").remove();
+ $("#build > option").remove();
  var testproject_id = $('#testproject').val(); // here we are taking testproject id of the selected one.
  $.ajax({
  type: "POST",
@@ -388,6 +418,36 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
  opt.val(id);
  opt.text(name);
  $('#plan').append(opt); //here we will append these new select options to a dropdown with the id 'plan'
+ });
+ }
+ 
+ });
+ 
+ });
+ });
+ // ]]>
+</script>
+ <script type="text/javascript">// <![CDATA[
+ $(document).ready(function(){
+ $('#plan').change(function(){ //any select change on the dropdown with id testproject trigger this code
+  //first of all clear select items
+ $("#build > option").remove();
+ var plan_id = $('#plan').val(); // here we are taking testproject id of the selected one.
+ $.ajax({
+ type: "POST",
+ 
+url: 'index.php/reportdashboard/getbuild/'+plan_id, 
+ //url: "localhost/dashboard/get_plan/"+testproject_id
+//here we are calling our user controller and get_plan method with the testproject_id
+ data: { 'plan_id': plan_id},
+ success: function(build) //we're calling the response json array 'plan'
+ {
+ $.each(build,function(id,name) //here we're doing a foeach loop round each city with id as the key and city as the value
+ {
+ var opt = $('<option />'); // here we're creating a new select option with for each city
+ opt.val(id);
+ opt.text(name);
+ $('#build').append(opt); //here we will append these new select options to a dropdown with the id 'plan'
  });
  }
  
@@ -478,8 +538,38 @@ function openCity(evt, cityName) {
             });
         });
         </script>
+		<script>
+		$(document).ready(function(){
+   
+		$('#reporttype').change(function(){
+			
+      if ( this.value == '1')
+      
+      {
+        $("#testproject").hide();
+		$("#plan").hide();
+		$("#build").hide();
+      }
+      else
+      {
+        $("#projectselect").show();		
+      }
+    });
+});
+		
+		
+		
+		
+		</script>
 </body>
 </div>
+
+<div style="margin: auto; min-height:30px; height: 20px; width: 1345px; position: relative;background: none repeat scroll 0 0 #005599; border: 1px solid black;
+    color: white;text-align:right
+	">Copyright © Zuci Systems. All rights reserved.</div>
 </html>
+
+
+
 
 
