@@ -29,13 +29,16 @@ if (mysql_num_rows($result) ==0)
     while($row=mysql_fetch_assoc($result)) {
 		
 		
-		$sql2 = "SELECT id, node_type_id FROM nodes_hierarchy where parent_id='".$row['id']."' and node_type_id='5'";
+		$sql2 = "SELECT id, node_type_id FROM nodes_hierarchy where parent_id='".$row['id']."' and node_type_id='5'order by id DESC LIMIT 1";
+		//echo $sql2;exit;
         $result2 = mysql_query($sql2);
 		$row2=mysql_fetch_assoc($result2);
-		$sql3="select * from executions where testplan_id ='".$row2['id']."'  ";
+		$sql3="select * from executions where testplan_id ='".$row2['id']."' ";
+		
 		$result3 = mysql_query($sql3);
 		$row3=mysql_fetch_assoc($result3);
-		$sql4="select *,count(execution_type)as auto from tcversions where id ='".$row3['tcversion_id']."' and execution_type='2'";
+        $sql4="select *,count(execution_type)as auto from tcversions where id ='".$row3['tcversion_id']."' and execution_type='2'";
+		//echo "select *,count(execution_type)as auto from tcversions where id ='".$row3['tcversion_id']."' and execution_type='2'";
 		$result4 = mysql_query($sql4);
 		$row4=mysql_fetch_assoc($result4);
 		$sql5="select *,count(execution_type)as man from tcversions where id ='".$row3['tcversion_id']."' and execution_type='1' ";
@@ -44,7 +47,7 @@ if (mysql_num_rows($result) ==0)
 		$row5=mysql_fetch_assoc($result5);
 		
 		
-		
+
 		$category['data'][]= $row['name'];
         $series1['data'][] = $row5['man'];
         $series2['data'][] = $row4['auto'];
