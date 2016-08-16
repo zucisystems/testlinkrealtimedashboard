@@ -24,11 +24,7 @@ $count=0;
 $countf= 0;
 $countp= 0;
 $countb= 0;
-function odd($var)
-{
-    // returns whether the input integer is odd
-    return($var & '36');
-}
+
 $sql = "select name, id, node_type_id from nodes_hierarchy where node_type_id='1'";
 $result = mysql_query($sql);
 
