@@ -30,7 +30,7 @@ if (mysql_num_rows($result) ==0)
 		
 		
 		$sql2 = "SELECT id, node_type_id FROM nodes_hierarchy where parent_id='".$row['id']."' and node_type_id='5'order by id DESC limit 1";
-        $result2 = mysql_query($sql2);
+                $result2 = mysql_query($sql2);
 		$row2=mysql_fetch_assoc($result2);
 		$sql3="select * from executions where testplan_id ='".$row2['id']."'group by tcversion_id order by execution_ts DESC";
 		$result3 = mysql_query($sql3);
@@ -44,10 +44,10 @@ if (mysql_num_rows($result) ==0)
 		
 		
 
-		$category['data'][]= $row['name'];
+        $category['data'][]= $row['name'];
         $series1['data'][] = $row5['man'];
         $series2['data'][] = $row4['auto'];
-		//$series3['data'][] = $row3['sp' ]; 
+	//$series3['data'][] = $row3['sp' ]; 
 	
     }
 }
