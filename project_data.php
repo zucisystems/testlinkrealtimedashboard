@@ -59,11 +59,11 @@ if ($pro=mysql_num_rows($result) ==0)
 	$report1[] = $row4["status"];		
 	}	
        	   
-	        $row5=$report;
-		$row6=$report1;
-		$rw=sizeof($row5);
-		$tt=array();
-		$tt=array_combine($row6,$row5);
+	$row5=$report;
+	$row6=$report1;
+	$rw=sizeof($row5);
+	$tt=array();
+	$tt=array_combine($row6,$row5);
 	 if(isset($tt['p'])== $row2['id']){ 
           $countp=1;}else{$countp=0;}
          if(isset($tt['f']) == $row2['id']){ 
