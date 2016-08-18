@@ -28,11 +28,18 @@ if (mysql_num_rows($result) ==0)
 } else {
     while($row=mysql_fetch_assoc($result)) {
 		
+		$sql0="SELECT id  FROM `nodes_hierarchy` where parent_id='".$row['id']."' and node_type_id='5' order by id DESC LIMIT 1";	
+        $result0 = mysql_query($sql0);	
+        $row0=mysql_fetch_assoc($result0);
+        $sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$row0['id']."'";
+        $result1 = mysql_query($sql1);	
+        $row1=mysql_fetch_assoc($result1);
 		
-		$sql2 = "SELECT id, node_type_id FROM nodes_hierarchy where parent_id='".$row['id']."' and node_type_id='5'order by id DESC limit 1";
-                $result2 = mysql_query($sql2);
-		$row2=mysql_fetch_assoc($result2);
-		$sql3="select * from executions where testplan_id ='".$row2['id']."'group by tcversion_id order by execution_ts DESC";
+		/*$sql2 = "SELECT id, node_type_id FROM nodes_hierarchy where parent_id='".$row['id']."' and node_type_id='5'order by id DESC limit 1";
+        $result2 = mysql_query($sql2);
+		$row2=mysql_fetch_assoc($result2);*/
+		if(!empty($row1['id'])){
+		$sql3="select * from executions where testplan_id ='".$row1['id']."'group by tcversion_id order by execution_ts DESC";
 		$result3 = mysql_query($sql3);
 		$row3=mysql_fetch_assoc($result3);
 		$sql4="select *,count(execution_type)as auto from tcversions where id ='".$row3['tcversion_id']."' and execution_type='2'";
@@ -44,11 +51,11 @@ if (mysql_num_rows($result) ==0)
 		
 		
 
-        $category['data'][]= $row['name'];
+		$category['data'][]= $row['name'];
         $series1['data'][] = $row5['man'];
         $series2['data'][] = $row4['auto'];
-	//$series3['data'][] = $row3['sp' ]; 
-	
+		//$series3['data'][] = $row3['sp' ]; 
+		}
     }
 }
 $result = array();
