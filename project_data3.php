@@ -87,10 +87,10 @@ $row1=mysql_fetch_assoc($result1);
 		} 
   
 		   
-		$category['data'][]= $row['name'];
+	$category['data'][]= $row['name'];
         $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
-		$series3['data'][] = $countp;
+	$series3['data'][] = $countp;
 	
 		}
 }
