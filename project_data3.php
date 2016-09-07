@@ -1,14 +1,15 @@
 
 <?php
 $con = mysql_connect("localhost","root","");
-//mysql_query("SET NAMES 'utf8'", $dbConn);
-//mysql_query("SET CHARACTER SET 'utf8'", $dbConn);
+
 
 if (!$con) {
   die('Could not connect: ' . mysql_error());
 }
 
 mysql_select_db("testlink", $con);
+mysql_query("SET NAMES 'utf8'", $con);
+mysql_query("SET CHARACTER SET 'utf8'", $con);
 //include_once ('application\view\testchart.php');
 $category = array();
 $category['name'] = 'Name';
@@ -59,7 +60,6 @@ $row1=mysql_fetch_assoc($result1);
         
         $report = array();
 		$report1 = array();		
-		
 	    $sql4="SELECT t.testplan_id,r.status,r.build_id FROM (SELECT testplan_id ,execution_ts,build_id,tcversion_id,status
         FROM `executions` where testplan_id='".$plan_id."'and build_id= '".$row['id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
 		INNER JOIN executions t ON t.testplan_id='".$plan_id."'GROUP BY r.build_id" ;	
@@ -87,10 +87,10 @@ $row1=mysql_fetch_assoc($result1);
 		} 
   
 		   
-	$category['data'][]= $row['name'];
+		$category['data'][]= $row['name'];
         $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
-	$series3['data'][] = $countp;
+		$series3['data'][] = $countp;
 	
 		}
 }
