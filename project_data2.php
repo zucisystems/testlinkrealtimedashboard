@@ -1,15 +1,17 @@
 
 <?php
 $con = mysql_connect("localhost","root","");
-//mysql_query("SET NAMES 'utf8'", $dbConn);
-//mysql_query("SET CHARACTER SET 'utf8'", $dbConn);
+
 
 if (!$con) {
   die('Could not connect: ' . mysql_error());
 }
 
 mysql_select_db("testlink", $con);
+mysql_query("SET NAMES 'utf8'", $con);
+mysql_query("SET CHARACTER SET 'utf8'", $con);
 //include_once ('application\view\testchart.php');
+
 $category = array();
 $category['name'] = 'Name';
 
