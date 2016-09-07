@@ -6,6 +6,8 @@ if (!$con) {
 }
 
 mysql_select_db("testlink", $con);
+mysql_query("SET NAMES 'utf8'", $con);
+mysql_query("SET CHARACTER SET 'utf8'", $con);
 $category = array();
 $category['name'] = 'Name';
 
