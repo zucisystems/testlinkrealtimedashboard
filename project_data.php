@@ -9,7 +9,8 @@ if (!$con) {
 }
 
 mysql_select_db("testlink", $con);
-
+mysql_query("SET NAMES 'utf8'", $con);
+mysql_query("SET CHARACTER SET 'utf8'", $con);
 $category = array();
 $category['name'] = 'Name';
 
@@ -27,11 +28,17 @@ $row6=array();
 $rw5=array();	
 $rw6=array();
 $count=0;
+$countf0= 0;
+$countp0= 0;
+$countb0= 0;
+$countf1= 0;
+$countp1= 0;
+$countb1= 0;
 $countf= 0;
 $countp= 0;
 $countb= 0;
 
-$sql = "select name, id, node_type_id from nodes_hierarchy where node_type_id='1'";
+ $sql = "select name, id, node_type_id from nodes_hierarchy where node_type_id='1'";
 $result = mysql_query($sql);
 //mysql_query("SET NAMES 'utf8'");
 //mysql_query("SET CHARACTER SET 'utf8'");
@@ -66,11 +73,11 @@ $row1=mysql_fetch_assoc($result1);
         //$report = "";	
 		//$report1 = "";
         $report = array();
-	$report1 = array();		
-	while($row7=mysql_fetch_array($result7)){
-	$sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
+		$report1 = array();		
+		while($row7=mysql_fetch_array($result7)){
+	    $sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
         FROM `executions` where testplan_id='".$row1['id']."'and tcversion_id= '".$row7['tcversion_id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
-	INNER JOIN executions t ON t.testplan_id='".$row1['id']."'GROUP BY r.tcversion_id";	
+		INNER JOIN executions t ON t.testplan_id='".$row1['id']."'GROUP BY r.tcversion_id";	
         $result4= mysql_query($sql4);
         $row4=mysql_fetch_assoc($result4);	
         $report[]=  $row4["testplan_id"];
@@ -98,10 +105,10 @@ $row1=mysql_fetch_assoc($result1);
 		} 
   
 		   
-	$category['data'][]= $row['name'];
+		$category['data'][]= $row['name'];
         $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
-	$series3['data'][] = $countp;
+		$series3['data'][] = $countp;
 	
 		}
 }
