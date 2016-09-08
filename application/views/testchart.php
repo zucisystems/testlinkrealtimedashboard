@@ -88,26 +88,23 @@ table.smallGrey {
     margin-right: 0;
 }
 
-#container2 {
-	
-    height:50%;
-    width:100%;
-    position:relative;
-	vertical-align: left;
-	align:left;
-}
+
 .chosen-container3,chosen-container4,chosen-container1,chosen-container {
     -moz-user-select: none;
     display: inline-block;
     font-size: 13px;
-    position: relative;
-    vertical-align: middle;
+    position: absolute; 
+	height:50%;
+    width:50%;  
+	vertical-align: left;
+	align:left;
 }
 
 </style>
-
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+ <!--<script href="<?php echo base_url('../../highcharts/js/highcharts.js')?>"></script>
+ <script href="<?php echo base_url('../../highcharts/js/modules/exporting.js')?>"></script> -->   
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>    
 		
 <!DOCTYPE HTML>
 <html>
@@ -118,11 +115,11 @@ table.smallGrey {
   <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a></li>
   <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Automation Status</a></li>
   <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">Other Related Reports</a></li>
-       		
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script type="text/javascript">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript">
         $(document).ready(function() {
             var options = {
+				colors: ['#ffa500','#cc0000','#009933'],
                 chart: {
                     renderTo:'container',
                     type: 'column',
@@ -175,7 +172,6 @@ table.smallGrey {
                 },
                 series: []
             }
-           
             $.getJSON("project_data.php", function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
@@ -185,8 +181,10 @@ table.smallGrey {
             });
         });
         </script>
-        <script src="http://code.highcharts.com/highcharts.js"></script>
-        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+       <!--<script src="http://code.highcharts.com/highcharts.js"></script>-->
+	   <script href="http://localhost/dashboard/application/highcharts/js/highcharts.js"></script>
+        <script src="http://localhost/dashboard/application/highcharts/js/modules/exporting.js"></script>
+		
 </head>
 
 <body>
@@ -256,26 +254,41 @@ table.smallGrey {
 <tr>
 <td>
  <?php $plan['#'] = 'Please Select'; ?>
-<label for="plan">TestPlan: </label><?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
+
+<label for="plan">TestPlan: </label> <?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
 </td>
 </tr>
 <!--<tr>
 <td>
  <?php $build['#'] = 'Please Select'; ?>
+
 <label for="city">Build: </label><?php echo form_dropdown('build_id', $build, '#', 'id="build"'); ?><br />
 </td>
 </tr>-->
 </table> 
+
 <div id="container2" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
 <div id="container3" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
-<div id="container4" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
-</div>
+<div id="container4" style="min-width: 800px; height: 400px;align:center; margin: 0 auto"></div>
 
+</div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">// <![CDATA[
  $(document).ready(function(){
  $('#testproject').change(function(){
 	 
+	 if ( $('#testproject').val() == '#')
+      
+      {
+        $("#testproject").hide();
+		$("#plan").hide();
+		$("#build").hide();
+		$("#reporttype").val=1;
+		document.getElementById('container4').style.display = 'none';
+        document.getElementById('container3').style.display = 'none';
+		document.getElementById('container2').style.display = 'none';
+		
+      }
 	 element = document.getElementById("reporttype");
 	  if(element.value =='1')
 	 {
@@ -287,12 +300,8 @@ table.smallGrey {
 		 var val = $('#testproject').val();
 
         getAjaxData(val);
-		 
-		 
-		
-		 
             var options = {
-				
+				colors: ['#ffa500','#cc0000','#009933'],
                 chart: {
                     renderTo:'container2',
                     type: 'column',
@@ -339,7 +348,11 @@ table.smallGrey {
                             enabled: true,
                             color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                         }
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+            }
                 },
                 series: []
             }
@@ -358,23 +371,20 @@ table.smallGrey {
 		 
  document.getElementById('container4').style.display = 'block';
  document.getElementById('container3').style.display = 'none';
- document.getElementById('container2').style.display = 'none';
- 
-	  
+ document.getElementById('container2').style.display = 'none';	  
 		 var val = $('#testproject').val();
-
-        getAjaxData(val);
-		 
-		 
-		
-		 
+        getAjaxData(val);	 
             var options = {
-				
+				colors: ['#ffa500','#cc0000','#009933'],
+      
                 chart: {
                     renderTo:'container4',
                     type: 'column',
-                    marginRight: 100,
+					width: 800,
+					
+                    marginRight: 130,
                     marginBottom: 25
+					
                 },
                 title: {
                     text: 'Execution Status',
@@ -416,9 +426,14 @@ table.smallGrey {
                             enabled: true,
                             color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                         }
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+            }
                 },
                 series: []
+				
             }
            function getAjaxData(id){
             $.getJSON("project_data4.php", {id: id}, function(json) {
@@ -462,7 +477,8 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
 </script>
  <script type="text/javascript">// <![CDATA[
  $(document).ready(function(){
- $('#plan').change(function(){
+ $('#plan').click(function(){
+	 
  $(document).ready(function() {
 	 
 	 element = document.getElementById("reporttype");
@@ -472,6 +488,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
         getAjaxData(val);
 	 
             var options = {
+				colors: ['#ffa500','#cc0000','#009933'],
                 chart: {
                     renderTo:'container3',
                     type: 'column',
@@ -520,7 +537,12 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                             enabled: true,
                             color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
                         }
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+            }
+					
                 },
                 series: []
             }
@@ -592,6 +614,7 @@ function openCity(evt, cityName) {
         <script type="text/javascript">
         $(document).ready(function() {
             var options = {
+				colors: ['#ffaf1a','#e60000','#009933'],
                 chart: {
                     renderTo:'container1',
                     type: 'column',
