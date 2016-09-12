@@ -91,7 +91,7 @@ $row1=mysql_fetch_assoc($result1);
 	
         //echo $row4["testplan_id"]->$row4["status"];echo"\n";	
 		}
-        $jj=array_slice($tt, -1, 1, true);	
+                $jj=array_slice($tt, -1, 1, true);	
 		$row7=array_slice($row5, -1, 1, true);
 		$row8=array_slice($row6, -1, 1, true);
 		$row10=array_slice($row9, -1, 1, true);
@@ -106,8 +106,8 @@ $row1=mysql_fetch_assoc($result1);
   
 		   
 		$category['data'][]= $row['name'];
-        $series1['data'][] = $countb;
-        $series2['data'][] = $countf; 
+                $series1['data'][] = $countb;
+                $series2['data'][] = $countf; 
 		$series3['data'][] = $countp;
 	
 		}
@@ -119,7 +119,6 @@ array_push($result,$category);
 array_push($result,$series1);
 array_push($result,$series2);
 array_push($result,$series3);
-
 print json_encode($result, JSON_NUMERIC_CHECK);
 
 mysql_close($con);
