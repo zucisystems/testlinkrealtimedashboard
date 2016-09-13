@@ -44,9 +44,12 @@ $result = mysql_query($sql);
 //print_r($_GET['id']);
 if ($pro=mysql_num_rows($result) ==0) 
 {
-
-    echo "No record";
-    exit;
+        $category['data'][]= 'No Data';
+        $series1['data'][] = '0';
+        $series2['data'][] = '0'; 
+		$series3['data'][] = '0';
+    //echo "No record";
+    //exit;
 } else {
 	
     while($row=mysql_fetch_assoc($result)) {
