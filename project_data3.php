@@ -46,7 +46,7 @@ if ($pro=mysql_num_rows($result) ==0)
 {
 
     //echo "No record";
-	   $category['data'][]= 'No Data';
+	   $category['data'][]= 'No Results found';
         $series1['data'][] = '0';
         $series2['data'][] = '0'; 
 		$series3['data'][] = '0';
