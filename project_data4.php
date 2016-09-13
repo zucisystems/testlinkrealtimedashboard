@@ -45,9 +45,12 @@ $result = mysql_query($sql);
 //print_r($_GET['id']);
 if ($pro=mysql_num_rows($result) ==0) 
 {
-
-    echo "No record";
-    exit;
+        $category['data'][]= 'No Data';
+        $series1['data'][] = '0';
+        $series2['data'][] = '0'; 
+		$series3['data'][] = '0';
+    //echo "No record";
+    //exit;
 } else {
 	
     while($row=mysql_fetch_assoc($result)) {
@@ -80,8 +83,8 @@ if ($pro=mysql_num_rows($result) ==0)
 		$result13= mysql_query($sql13);
 		$row13=mysql_fetch_assoc($result13);
 		
-		$sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
-        FROM `executions` where testplan_id='".$row['id']."'and tcversion_id= '".$row12['id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
+	    $sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
+        FROM `executions` where testplan_id='".$row['id']."'and tcversion_id= '".$row7['tcversion_id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
 		INNER JOIN executions t ON t.testplan_id='".$row['id']."'GROUP BY r.tcversion_id";	
         $result4= mysql_query($sql4);
         $row4=mysql_fetch_assoc($result4);	
@@ -92,7 +95,9 @@ if ($pro=mysql_num_rows($result) ==0)
         $result14= mysql_query($sql14);
         $row14=mysql_fetch_assoc($result14);
 		
-		$sql15="SELECT  Distinct(execution_type)   FROM `tcversions`  ";
+	    $sql15="SELECT t.execution_type FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
+        FROM `executions` where testplan_id='".$row['id']."'and tcversion_id= '".$row7['tcversion_id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
+		INNER JOIN tcversions t ON t.id='".$row7['tcversion_id']."'GROUP BY r.tcversion_id  ";
 		$result15= mysql_query($sql15);
         $row15=mysql_fetch_assoc($result15);
 		
@@ -109,6 +114,7 @@ if ($pro=mysql_num_rows($result) ==0)
 		
 		$rw6[]=$row7['tcversion_id'];
 		}
+		
         $jj=array_slice($tt, -1, 1, true);	
 		$row7=array_slice($row5, -1, 1, true);
 		$row17=array_slice($rw5, -1, 1, true);
