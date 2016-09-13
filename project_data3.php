@@ -45,8 +45,12 @@ $result = mysql_query($sql);
 if ($pro=mysql_num_rows($result) ==0) 
 {
 
-    echo "No record";
-    exit;
+    //echo "No record";
+	   $category['data'][]= 'No Data';
+        $series1['data'][] = '0';
+        $series2['data'][] = '0'; 
+		$series3['data'][] = '0';
+   
 } else {
 	
     while($row=mysql_fetch_assoc($result)) {
@@ -85,9 +89,10 @@ $row1=mysql_fetch_assoc($result1);
        
 		$countb=preg_match_all('/' . preg_quote('b', '/') . '/', $res[$row1['id']]);	   
 		} 
-  
-		   
+
+		//if($row['name']=='No record')   {echo "ll";$countb=0;}
 		$category['data'][]= $row['name'];
+		
         $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
 		$series3['data'][] = $countp;
@@ -102,9 +107,7 @@ array_push($result,$category);
 array_push($result,$series1);
 array_push($result,$series2);
 array_push($result,$series3);
-
 print json_encode($result, JSON_NUMERIC_CHECK);
-
 mysql_close($con);
 
 
