@@ -87,7 +87,6 @@ $project_id=$_GET['id'];
 	
 		$tt=array_combine($rw5,$row5) ;
   
-    print_r($tt[$row8['execution_type']]);
 		
 		
 		
