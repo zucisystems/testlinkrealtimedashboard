@@ -56,12 +56,12 @@ if ($pro=mysql_num_rows($result) ==0)
 	
     while($row=mysql_fetch_assoc($result)) {
 		
-        $sql0="SELECT id  FROM `nodes_hierarchy` where parent_id='".$row['id']."' and node_type_id='5' order by id DESC LIMIT 1";	
-        $result0 = mysql_query($sql0);	
-        $row0=mysql_fetch_assoc($result0);
-        $sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$row0['id']."'";
-        $result1 = mysql_query($sql1);	
-        $row1=mysql_fetch_assoc($result1);
+$sql0="SELECT id  FROM `nodes_hierarchy` where parent_id='".$row['id']."' and node_type_id='5' order by id DESC LIMIT 1";	
+$result0 = mysql_query($sql0);	
+$row0=mysql_fetch_assoc($result0);
+$sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$row0['id']."'";
+$result1 = mysql_query($sql1);	
+$row1=mysql_fetch_assoc($result1);
 			
 	    /*$sql2="SELECT id, node_type_id FROM `nodes_hierarchy` where parent_id='".$row1['id']."' and node_type_id='5' order by id DESC LIMIT 1 ";
         $result2 = mysql_query($sql2);
@@ -90,32 +90,33 @@ if ($pro=mysql_num_rows($result) ==0)
 		$row6[]=implode(",",$report);
 		$row9[]=$row1['id'];
 		$tt[$row4["testplan_id"]][]=$row5;
-        
-		$jj=array_slice($tt, -1, 1, true);	
+      
+		
+	
+        //echo $row4["testplan_id"]->$row4["status"];echo"\n";	
+		}
+		
+        $jj=array_slice($tt, -1, 1, true);	
 		$row7=array_slice($row5, -1, 1, true);
 		$row8=array_slice($row6, -1, 1, true);
 		$row10=array_slice($row9, -1, 1, true);
 		$res=array_combine($row10,$row7);
 		
 		if(isset($res[$row1['id']])){
+			
 		$countp=preg_match_all('/' . preg_quote('p', '/') . '/', $res[$row1['id']]);
            
 		$countf=preg_match_all('/' . preg_quote('f', '/') . '/', $res[$row1['id']]);
        
-		$countb=preg_match_all('/' . preg_quote('b', '/') . '/', $res[$row1['id']]);	
-	
-        //echo $row4["testplan_id"]->$row4["status"];echo"\n";	
-		}
+		$countb=preg_match_all('/' . preg_quote('b', '/') . '/', $res[$row1['id']]);
+		
 		$category['data'][]= $row['name'];
-        $series1['data'][] = $countb;
+	    $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
-		$series3['data'][] = $countp;
-           
+		$series3['data'][] = $countp; 
+		  
 		} 
   
-		   
-		
-	
 		}
 }
 
