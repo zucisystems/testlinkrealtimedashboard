@@ -95,7 +95,7 @@ table.smallGrey {
 }
 
 
-.chosen-container3,chosen-container4,chosen-container1,chosen-container {
+.chosen-container3,chosen-container4,chosen-container4a,chosen-container5,chosen-container1,chosen-container {
     -moz-user-select: none;
     display: inline-block;
     font-size: 13px;
@@ -107,10 +107,10 @@ table.smallGrey {
 }
 
 </style>
- <!--<script href="<?php echo base_url('../../highcharts/js/highcharts.js')?>"></script>
- <script href="<?php echo base_url('../../highcharts/js/modules/exporting.js')?>"></script> -->   
+<!-- <script href="<?php echo base_url('../../highcharts/js/highcharts.js')?>"></script>
+ <script href="<?php echo base_url('../../highcharts/js/modules/exporting.js')?>"></script> -->    
     <script src="http://code.highcharts.com/highcharts.js"></script>
-	<script src="http://code.highcharts.com/modules/exporting.js"></script>    
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>  
 		
 <!DOCTYPE HTML>
 <html>
@@ -122,6 +122,7 @@ table.smallGrey {
   <ul class="tab">
   <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a></li>
   <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Automation Status</a></li>
+   <li><a href="#" class="tablinks" onclick="openCity(event, 'mastatus')">Manual Status</a></li>
   <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">Other Related Reports</a></li>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
@@ -193,7 +194,7 @@ table.smallGrey {
        <!--<script src="http://code.highcharts.com/highcharts.js"></script>-->
 	    <script href="http://localhost/dashboard/application/highcharts/js/highcharts.js"></script>
         <script src="http://localhost/dashboard/application/highcharts/js/modules/exporting.js"></script>		
-        <script src="http://localhost/dashboard/application/highcharts/js/modules/no-data-to-display.js"></script>
+        
 </head>
 
 <body>
@@ -222,7 +223,7 @@ table.smallGrey {
 <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
 <tr>
 <td>
-<h3>Execution Status</h3>
+<h3>Automation Status</h3>
 </td>
 </tr>
 <tr>
@@ -230,9 +231,32 @@ table.smallGrey {
 <div id="container1" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
 </td>
 </tr>
+<tr>
+<td>
+Note:Only Automatically executed status of the project are shown.
+</td>
+</tr>
 </table>
 </div>
-
+<div id="mastatus" class="tabcontent">
+<table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
+<tr>
+<td>
+<h3>Manual Status</h3>
+</td>
+</tr>
+<tr>
+<td>
+<div id="container5" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
+</td>
+</tr>
+<tr>
+<td>
+Note:Only Manually executed status of the project are shown.
+</td>
+</tr>
+</table>
+</div>
 <div id="otstatus" class="tabcontent">    
 <table class="smallGrey" style="width:200%;height:200%overflow: visible;">
 <tr>
@@ -283,8 +307,9 @@ table.smallGrey {
 
 <div id="container2" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
 <div id="container3" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
-<div id="container4" style="min-width: 800px; height: 400px;align:center; margin: 0 auto"></div>
-
+<div id="container4" style="min-width: 400px; height: 200px;align:center; margin: 0 auto"></div>
+<?php echo "<br>";?>
+<div id="container4a" style="min-width: 400px; height: 200px;align:center; margin: 0 auto"></div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">// <![CDATA[
@@ -292,19 +317,19 @@ table.smallGrey {
  $('#testproject').change(function(){
 	  element = document.getElementById("reporttype");
 	 if ( $('#testproject').val() == '#' || $('#testproject').val() == ''&& element.value =='1')
-      
       {
-	    //alert('hh');
 		document.getElementById('container4').style.display = 'none';
+		document.getElementById('container4a').style.display = 'none';
         document.getElementById('container3').style.display = 'none';
 		document.getElementById('container2').style.display = 'none';
       }
 	
 	  if(element.value =='1')
 	 {
- document.getElementById('container3').style.display = 'none'; 
- document.getElementById('container4').style.display = 'none';
- document.getElementById('container2').style.display = 'block'; 
+      document.getElementById('container3').style.display = 'none'; 
+      document.getElementById('container4').style.display = 'none';
+      document.getElementById('container4a').style.display = 'none';
+      document.getElementById('container2').style.display = 'block'; 
 	
 			  
 		 var val = $('#testproject').val();
@@ -363,12 +388,99 @@ table.smallGrey {
 					series: {
                 pointWidth: 50,
                 groupPadding: 0
-            }
+                   }
                 },
                 series: []
             }
+
            function getAjaxData(id){
             $.getJSON("project_data2.php", {id: id}, function(json) {
+				
+				
+                options.xAxis.categories = json[0]['data'];
+                options.series[0] = json[1];
+                options.series[1] = json[2];
+                options.series[2] = json[3];			
+                chart = new Highcharts.Chart(options);	
+            });
+			
+		   }
+		    chart.redraw(); 
+	 }
+	if(element.value =='3')
+	 {
+		 
+  document.getElementById('container4').style.display = 'block';
+  document.getElementById('container4a').style.display = 'block';
+  document.getElementById('container3').style.display = 'none';
+  document.getElementById('container2').style.display = 'none';	  
+		 	
+ $(document).ready(function() {	
+var val = $('#testproject').val();
+       
+        getAjaxData4a(val); 
+		   var options = {
+				colors: ['#ffa500','#cc0000','#009933'],
+      
+                chart: {
+                    renderTo:'container4a',
+                    type: 'column',
+					width: 800,
+					
+                    marginRight: 130,
+					marginup: 20,
+                    marginBottom: 25
+					
+                },
+                title: {
+                    text: 'Execution Status(Manual)',
+                    x: -10 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+                    categories: []
+                },
+                yAxis: {
+                    title: {
+                        text: 'Results'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                  tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -10,
+                    y: 100,
+                    borderWidth: 0
+                },
+                 plotOptions: {
+                    column: {
+                        stacking: 'percent',
+                       
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+            }
+                },
+                series: []
+				
+            }
+			 
+           function getAjaxData4a(id){
+            $.getJSON("project_data4a.php", {id: id}, function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
                 options.series[1] = json[2];
@@ -376,16 +488,13 @@ table.smallGrey {
                 chart = new Highcharts.Chart(options);
             });
 		   }
-	 }
-	if(element.value =='3')
-	 {
-		 
- document.getElementById('container4').style.display = 'block';
- document.getElementById('container3').style.display = 'none';
- document.getElementById('container2').style.display = 'none';	  
-		 var val = $('#testproject').val();
-        getAjaxData(val);	 
-            var options = {
+		   });
+		   
+		    $(document).ready(function() {	
+			var val = $('#testproject').val();
+        getAjaxData4(val);	
+        
+		    var options = {
 				colors: ['#ffa500','#cc0000','#009933'],
       
                 chart: {
@@ -398,7 +507,7 @@ table.smallGrey {
 					
                 },
                 title: {
-                    text: 'Execution Status',
+                    text: 'Execution Status(Automation)',
                     x: -10 //center
                 },
                 subtitle: {
@@ -433,10 +542,7 @@ table.smallGrey {
                  plotOptions: {
                     column: {
                         stacking: 'percent',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                       
                     },
 					series: {
                 pointWidth: 50,
@@ -446,7 +552,7 @@ table.smallGrey {
                 series: []
 				
             }
-           function getAjaxData(id){
+           function getAjaxData4(id){
             $.getJSON("project_data4.php", {id: id}, function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
@@ -455,6 +561,11 @@ table.smallGrey {
                 chart = new Highcharts.Chart(options);
             });
 		   }
+		   });
+		   
+		   
+		   
+		   
 	 }
 	 
  //any select change on the dropdown with id testproject trigger this code
@@ -463,7 +574,7 @@ table.smallGrey {
  var testproject_id = $('#testproject').val(); // here we are taking testproject id of the selected one.
  $.ajax({
  type: "POST",
- 
+  cache: false,
 url: 'index.php/reportdashboard/getplan/'+testproject_id, 
  
  //url: "localhost/dashboard/get_plan/"+testproject_id
@@ -505,11 +616,20 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
 					width: 800,
                     marginRight: 130,
                     marginBottom: 25
+					
+					
+				
                 },
                 title: {
                     text: ' Status',
                     x: -20 //center
                 },
+				 events: {
+                    redraw: function() {
+                    console.log("highcharts redraw, rendering-done");
+                    $('body').addClass('rendering-done');
+                                       }
+                 },
                 subtitle: {
                     text: '',
                     x: -20
@@ -559,7 +679,9 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
             }
            
              function getAjaxData(id){
-            $.getJSON("project_data3.php", {id: id}, function(json) {
+				 
+                $.getJSON("project_data3.php", {id: id}, function(json) {
+					
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
                 options.series[1] = json[2];
@@ -567,6 +689,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                 chart = new Highcharts.Chart(options);
             });
 			 }
+			  
         });
 
 
@@ -576,6 +699,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
 document.getElementById('container2').style.display = 'none';		
 document.getElementById('container3').style.display = 'block';
 document.getElementById('container4').style.display = 'none';
+document.getElementById('container4a').style.display = 'none';
 	 }
 
 
@@ -631,10 +755,79 @@ function openCity(evt, cityName) {
                     renderTo:'container1',
                     type: 'column',
                     marginRight: 130,
-                    marginBottom: 25
+                    marginBottom: 65
                 },
                 title: {
                     text: 'Execution Status',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: '',
+                    x: -20
+                },
+                xAxis: {
+					labels: {
+        overflow: 'justify'
+      },
+                    categories: []
+                },
+                yAxis: {
+                    title: {
+                        text: 'Results'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    formatter: function() {
+                            return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y;
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -10,
+                    y: 100,
+                    borderWidth: 0
+                },
+                 plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: []
+            }
+           
+            $.getJSON("project_data1.php", function(json) {
+                options.xAxis.categories = json[0]['data'];
+                options.series[0] = json[1];
+                options.series[1] = json[2];
+                options.series[2] = json[3];
+                chart = new Highcharts.Chart(options);
+            });
+        });
+        </script>
+		<script type="text/javascript">
+        $(document).ready(function() {
+            var options = {
+				colors: ['#ffaf1a','#e60000','#009933'],
+                chart: {
+                    renderTo:'container5',
+                    type: 'column',
+                    marginRight: 130,
+                    marginBottom: 65
+                },
+                title: {
+                    text: 'Manual Status',
                     x: -20 //center
                 },
                 subtitle: {
@@ -680,29 +873,29 @@ function openCity(evt, cityName) {
                 series: []
             }
            
-            $.getJSON("project_data1.php", function(json) {
+            $.getJSON("project_data5.php", function(json) {
                 options.xAxis.categories = json[0]['data'];
                 options.series[0] = json[1];
                 options.series[1] = json[2];
-              //options.series[2] = json[3];
+                options.series[2] = json[3];
                 chart = new Highcharts.Chart(options);
             });
         });
         </script>
-		
 		<script>
 		$(document).ready(function(){
-			
+		document.getElementById('container4a').style.display = 'none';	
 		document.getElementById('container4').style.display = 'none';
         document.getElementById('container3').style.display = 'none';
 		document.getElementById('container2').style.display = 'none';
 		$('#reporttype').change(function(){
 			//var testproject_id = document.getElementById('testproject');
-			
+				$.ajaxSetup({ cache: false });
       if ( this.value == '0')
       
       {
 		document.getElementById('container4').style.display = 'none';
+		document.getElementById('container4a').style.display = 'none';
         document.getElementById('container3').style.display = 'none';
 		document.getElementById('container2').style.display = 'none';
       }
@@ -734,21 +927,17 @@ function openCity(evt, cityName) {
 		$("#testproject").show();
 		$("#plan").hide();
 		$("#build").hide();
-		//document.getElementById('container4').style.display = 'block';
-		
+		document.getElementById('container4').style.display = 'block';
+		document.getElementById('container4a').style.display = 'block';
 		
 	  }
 	  
       
     });
+	
 });
 
 		</script>
-
-		
-		
-		
-		
 		</form>
 </body>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
