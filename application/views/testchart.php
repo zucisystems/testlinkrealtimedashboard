@@ -272,12 +272,7 @@ Note:Only Manually executed status of the project are shown.
 <option value='1'> Overall Project</option>
 <option value='2'> Overall Test Plan</option>
 <option value='3'> Manual vs Automation</option>
-<!--<option value='4'> Manual Project</option>
-<option value='5'> Manual Testplan</option>
-<option value='6'> Manual Build</option>
-<option value='7'> Automated Project</option>
-<option value='8'> Automated Test Plan</option>
-<option value='9'> Automated Build</option>-->
+
 </select>
 </td>
 </tr>
