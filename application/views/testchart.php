@@ -131,10 +131,13 @@ table.smallGrey {
                     renderTo:'container',
                     type: 'column',
                     marginRight: 130,
-                    marginBottom: 25
+                    marginBottom: 65
+                },
+				 credits: {
+                        enabled: false
                 },
                 title: {
-                    text: 'Project Status',
+                    text: 'Status Across Project',
                     x: -20 //center
                 },
                 subtitle: {
@@ -142,11 +145,14 @@ table.smallGrey {
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'Projects'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -170,8 +176,15 @@ table.smallGrey {
                     column: {
                         stacking: 'normal',
                         
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+                   }
                 },
+					
+               
+				
                 series: []
             }
             $.getJSON("project_data.php", function(json) {
@@ -204,7 +217,7 @@ table.smallGrey {
 </tr>-->
 <tr>
 <td>
-<div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
 </td>
 </tr>
 </table>
@@ -260,8 +273,8 @@ Note:Only Manually executed status of the project are shown.
 <label for="reporttype"> Report Type:</label>
 <select id ="reporttype" name="reporttype">
 <option value='0'> Select Type</option>
-<option value='1'> Overall Project</option>
-<option value='2'> Overall Test Plan</option>
+<option value='1'> Project-TestPlan Trend</option>
+<option value='2'> TestPlan-Build Trend</option>
 <option value='3'> Manual vs Automation</option>
 
 </select>
@@ -275,13 +288,16 @@ Note:Only Manually executed status of the project are shown.
 <label for="testproject">Testproject: </label><?php echo form_dropdown('testproject_id', $testprojects, '#', 'id="testproject"'); ?><br />
 </td>
 </tr>
+
 <tr>
 <td>
+
  <?php $plan['#'] = 'Please Select'; ?>
 
-<label for="plan">TestPlan: </label> <?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
+<label id="plans">TestPlan: </label> <?php echo form_dropdown('plan_id', $plan, '#', 'id="plan"'); ?><br />
 </td>
 </tr>
+
 <!--<tr>
 <td>
  <?php $build['#'] = 'Please Select'; ?>
@@ -330,8 +346,11 @@ Note:Only Manually executed status of the project are shown.
                     marginRight: 100,
                     marginBottom: 25
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
-                    text: 'Execution Status',
+                    text: 'Project_Testplan Trend',
                     x: -10 //center
                 },
                 subtitle: {
@@ -339,11 +358,14 @@ Note:Only Manually executed status of the project are shown.
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'TestPlans'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -415,6 +437,9 @@ var val = $('#testproject').val();
                     marginBottom: 25
 					
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
                     text: 'Execution Status(Manual)',
                     x: -10 //center
@@ -424,11 +449,14 @@ var val = $('#testproject').val();
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'TestPlans'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -489,6 +517,9 @@ var val = $('#testproject').val();
                     marginBottom: 25
 					
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
                     text: 'Execution Status(Automation)',
                     x: -10 //center
@@ -498,11 +529,15 @@ var val = $('#testproject').val();
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'Projects'
+            },
+					
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -603,8 +638,11 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
 					
 				
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
-                    text: ' Status',
+                    text: ' Testplan_Build Trend',
                     x: -20 //center
                 },
 				 events: {
@@ -618,11 +656,14 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'Builds'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -735,8 +776,11 @@ function openCity(evt, cityName) {
                     marginRight: 130,
                     marginBottom: 65
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
-                    text: 'Execution Status',
+                    text: 'Automation Status Across Project',
                     x: -20 //center
                 },
                 subtitle: {
@@ -746,12 +790,15 @@ function openCity(evt, cityName) {
                 xAxis: {
 					labels: {
         overflow: 'justify'
-      },
+                     },
+					  title: {
+                text: 'Projects'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -775,7 +822,11 @@ function openCity(evt, cityName) {
                     column: {
                         stacking: 'normal',
                        
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+                   }
                 },
                 series: []
             }
@@ -799,8 +850,11 @@ function openCity(evt, cityName) {
                     marginRight: 130,
                     marginBottom: 65
                 },
+				 credits: {
+                        enabled: false
+                },
                 title: {
-                    text: 'Manual Status',
+                    text: 'Manual Status Across Project',
                     x: -20 //center
                 },
                 subtitle: {
@@ -808,11 +862,14 @@ function openCity(evt, cityName) {
                     x: -20
                 },
                 xAxis: {
+					title: {
+                text: 'Projects'
+            },
                     categories: []
                 },
                 yAxis: {
                     title: {
-                        text: 'Results'
+                        text: 'Status'
                     },
                     plotLines: [{
                         value: 0,
@@ -836,7 +893,11 @@ function openCity(evt, cityName) {
                     column: {
                         stacking: 'normal',
                        
-                    }
+                    },
+					series: {
+                pointWidth: 50,
+                groupPadding: 0
+                   }
                 },
                 series: []
             }
@@ -876,6 +937,7 @@ function openCity(evt, cityName) {
       {
         $("#testproject").show();
 		$("#plan").hide();
+		$("#plans").hide();
 		$("#build").hide();
 		
       }
@@ -884,16 +946,15 @@ function openCity(evt, cityName) {
 	  {
 		$("#testproject").show();
 		$("#plan").show();
+		$("#plans").show();
 		$("#build").hide();
-		
-		//document.getElementById('container3').style.display = 'block';
-		
-		  
+		//document.getElementById('container3').style.display = 'block';  
 	  }
 	   if(this.value =='3')
 	  {
 		$("#testproject").show();
 		$("#plan").hide();
+		$("#plans").hide();
 		$("#build").hide();
 		document.getElementById('container4').style.display = 'block';
 		document.getElementById('container4a').style.display = 'block';
