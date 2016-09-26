@@ -2,10 +2,7 @@
 plotOptions: {
     column: {
         stacking: 'normal',
-        dataLabels: {
-            enabled: true,
-            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-        }
+       
     }
 }
 .header img {
@@ -157,12 +154,10 @@ table.smallGrey {
                         color: '#808080'
                     }]
                 },
-                tooltip: {
-                    formatter: function() {
-                            return '<b>'+ this.series.name +'</b><br/>'+
-                            this.x +': '+ this.y;
-                    }
-                },
+                     tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
                 legend: {
                     layout: 'vertical',
                     align: 'right',
@@ -174,10 +169,7 @@ table.smallGrey {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                        
                     }
                 },
                 series: []
@@ -192,8 +184,7 @@ table.smallGrey {
         });
         </script>
        <!--<script src="http://code.highcharts.com/highcharts.js"></script>-->
-	    <script href="http://localhost/dashboard/application/highcharts/js/highcharts.js"></script>
-        <script src="http://localhost/dashboard/application/highcharts/js/modules/exporting.js"></script>		
+	
         
 </head>
 
@@ -206,11 +197,11 @@ table.smallGrey {
 <form action="" method=GET>
 <div id="pstatus" class="tabcontent">
 <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
-<tr>
+<!--<tr>
 <td>
 <h3>Project Health</h3>
 </td>
-</tr>
+</tr>-->
 <tr>
 <td>
 <div id="container" style="min-width: 900px; height: 400px; margin: 0 auto"></div>
@@ -221,11 +212,11 @@ table.smallGrey {
 
 <div id="astatus" class="tabcontent">
 <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
-<tr>
+<!--<tr>
 <td>
 <h3>Automation Status</h3>
 </td>
-</tr>
+</tr>-->
 <tr>
 <td>
 <div id="container1" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
@@ -240,11 +231,11 @@ Note:Only Automatically executed status of the project are shown.
 </div>
 <div id="mastatus" class="tabcontent">
 <table class="smallGrey" style="width:200%;height:200%;overflow: visible;"> 
-<tr>
+<!--<tr>
 <td>
 <h3>Manual Status</h3>
 </td>
-</tr>
+</tr>-->
 <tr>
 <td>
 <div id="container5" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
@@ -259,11 +250,11 @@ Note:Only Manually executed status of the project are shown.
 </div>
 <div id="otstatus" class="tabcontent">    
 <table class="smallGrey" style="width:200%;height:200%overflow: visible;">
-<tr>
+<!--<tr>
 <td>
 <h3>Other Related Reports</h3>
 </td>
-</tr>
+</tr>-->
 <tr>
 <td>
 <label for="reporttype"> Report Type:</label>
@@ -375,10 +366,7 @@ Note:Only Manually executed status of the project are shown.
                  plotOptions: {
                     column: {
                         stacking: 'percent',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                        
                     },
 					series: {
                 pointWidth: 50,
@@ -642,12 +630,10 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                         color: '#808080'
                     }]
                 },
-                tooltip: {
-                    formatter: function() {
-                            return '<b>'+ this.series.name +'</b><br/>'+
-                            this.x +': '+ this.y;
-                    }
-                },
+                     tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
                 legend: {
                     layout: 'vertical',
                     align: 'right',
@@ -659,10 +645,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                  plotOptions: {
                     column: {
                         stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                        
                     },
 					series: {
                 pointWidth: 50,
@@ -776,12 +759,10 @@ function openCity(evt, cityName) {
                         color: '#808080'
                     }]
                 },
-                tooltip: {
-                    formatter: function() {
-                            return '<b>'+ this.series.name +'</b><br/>'+
-                            this.x +': '+ this.y;
-                    }
-                },
+                      tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
                 legend: {
                     layout: 'vertical',
                     align: 'right',
@@ -793,10 +774,7 @@ function openCity(evt, cityName) {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                       
                     }
                 },
                 series: []
@@ -842,12 +820,10 @@ function openCity(evt, cityName) {
                         color: '#808080'
                     }]
                 },
-                tooltip: {
-                    formatter: function() {
-                            return '<b>'+ this.series.name +'</b><br/>'+
-                            this.x +': '+ this.y;
-                    }
-                },
+                      tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+        },
                 legend: {
                     layout: 'vertical',
                     align: 'right',
@@ -859,10 +835,7 @@ function openCity(evt, cityName) {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                        }
+                       
                     }
                 },
                 series: []
