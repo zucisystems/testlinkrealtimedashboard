@@ -35,6 +35,8 @@ ul.tab li a {
     text-decoration: none;
     transition: 0.3s;
     font-size: 19px;
+	font-style:initial;
+	font-family:Times New Roman;
 }
 
 /* Change background color of links on hover */
@@ -71,6 +73,7 @@ h1, h1.title {
     color: white;
     font-size: 130%;
     font-weight: bold;
+	font-family:Times New Roman;
     margin: 0 0 4px;
     padding: 3px;
     text-align: center;
@@ -82,6 +85,14 @@ div.workBack {
     margin: 3px;
     padding: 3px 3px 50px;
     text-align: left;
+}
+label {
+    color: #000000;
+    line-height: 20px;
+    padding: 2px;
+    display: block;
+    float: left;
+    width: 160px;
 }
 table.smallGrey {
     background: none repeat scroll 0 0 #EEEEEE;
@@ -115,29 +126,37 @@ table.smallGrey {
 <div style="width:1347">
 <head>
 
-<h1> Realtime Dashboard for Testlink</h1>
+<h1> Realtime Dashboard For TestLink</h1>
   <ul class="tab">
-  <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a></li>
-  <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Execution Status (Automation)</a></li>
-   <li><a href="#" class="tablinks" onclick="openCity(event, 'mastatus')">Execution Status (Manual)</a></li>
-  <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">More Reports</a></li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a>|</li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Execution Status (Automation)</a>|</li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'mastatus')">Execution Status (Manual)</a>|</li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">More Reports</a>|</li>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
 		<script type="text/javascript">
         $(document).ready(function() {
             var options = {
+				
 				colors: ['#ffa500','#cc0000','#009933'],
                 chart: {
                     renderTo:'container',
                     type: 'column',
                     marginRight: 130,
-                    marginBottom: 65
+                    marginBottom: 65,
+					
+					
+					style: {
+             fontFamily: 'TimesNewRoman',
+			 fontSize: '11px'
+        }
                 },
 				 credits: {
                         enabled: false
                 },
                 title: {
                     text: 'Project Status',
+					
                     x: -20 //center
                 },
                 subtitle: {
@@ -154,7 +173,7 @@ table.smallGrey {
 					 min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -373,7 +392,7 @@ Note:Only Manually executed status of the project are shown.
 					 min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -472,7 +491,7 @@ var val = $('#testproject').val();
 					min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -559,7 +578,7 @@ var val = $('#testproject').val();
 					 min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -691,7 +710,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
 					 min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -821,7 +840,7 @@ function openCity(evt, cityName) {
                 },
                 xAxis: {
 					labels: {
-        overflow: 'justify'
+                overflow: 'justify'
                      },
 					  title: {
                 text: 'Projects'
@@ -832,7 +851,7 @@ function openCity(evt, cityName) {
 					 min: 0,
                      tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
@@ -910,7 +929,7 @@ function openCity(evt, cityName) {
 					min: 0,
                     tickInterval:1,
                     title: {
-                        text: 'Testcase'
+                        text: 'Test Case'
                     },
                     plotLines: [{
                         value: 0,
