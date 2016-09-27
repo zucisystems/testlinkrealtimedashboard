@@ -34,7 +34,7 @@ ul.tab li a {
     padding: 14px 16px;
     text-decoration: none;
     transition: 0.3s;
-    font-size: 17px;
+    font-size: 19px;
 }
 
 /* Change background color of links on hover */
@@ -73,7 +73,7 @@ h1, h1.title {
     font-weight: bold;
     margin: 0 0 4px;
     padding: 3px;
-    text-align: left;
+    text-align: center;
 }
 div.workBack {
     background: none repeat scroll 0 0 #CCDDEE;
@@ -115,12 +115,12 @@ table.smallGrey {
 <div style="width:1347">
 <head>
 
-<h1> Overall Project Dashboard</h1>
+<h1> Realtime Dashboard for Testlink</h1>
   <ul class="tab">
   <li><a href="#" class="tablinks" onclick="openCity(event, 'pstatus')">Project Status</a></li>
-  <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Automation Status</a></li>
-   <li><a href="#" class="tablinks" onclick="openCity(event, 'mastatus')">Manual Status</a></li>
-  <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">Other Related Reports</a></li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'astatus')">Execution Status (Automation)</a></li>
+   <li><a href="#" class="tablinks" onclick="openCity(event, 'mastatus')">Execution Status (Manual)</a></li>
+  <li><a href="#" class="tablinks" onclick="openCity(event, 'otstatus')">More Reports</a></li>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
 		<script type="text/javascript">
@@ -137,7 +137,7 @@ table.smallGrey {
                         enabled: false
                 },
                 title: {
-                    text: 'Status Across Project',
+                    text: 'Project Status',
                     x: -20 //center
                 },
                 subtitle: {
@@ -151,8 +151,10 @@ table.smallGrey {
                     categories: []
                 },
                 yAxis: {
+					 min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -175,6 +177,10 @@ table.smallGrey {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                         
                     },
 					series: {
@@ -273,8 +279,8 @@ Note:Only Manually executed status of the project are shown.
 <label for="reporttype"> Report Type:</label>
 <select id ="reporttype" name="reporttype">
 <option value='0'> Select Type</option>
-<option value='1'> Project-TestPlan Trend</option>
-<option value='2'> TestPlan-Build Trend</option>
+<option value='1'> Project-Test Plan Trend</option>
+<option value='2'> Test Plan-Build Trend</option>
 <option value='3'> Manual vs Automation</option>
 
 </select>
@@ -285,7 +291,7 @@ Note:Only Manually executed status of the project are shown.
 <tr>
 <td>
 <?php $testprojects['#'] = 'Please Select'; ?>
-<label for="testproject">Testproject: </label><?php echo form_dropdown('testproject_id', $testprojects, '#', 'id="testproject"'); ?><br />
+<label for="testproject">TestProject: </label><?php echo form_dropdown('testproject_id', $testprojects, '#', 'id="testproject"'); ?><br />
 </td>
 </tr>
 
@@ -309,9 +315,9 @@ Note:Only Manually executed status of the project are shown.
 
 <div id="container2" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
 <div id="container3" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
-<div id="container4" style="min-width: 400px; height: 200px;align:center; margin: 0 auto"></div>
+<div id="container4" style="min-width: 400px; height: 400px;align:center; margin: 0 auto"></div>
 <?php echo "<br>";?>
-<div id="container4a" style="min-width: 400px; height: 200px;align:center; margin: 0 auto"></div>
+<div id="container4a" style="min-width: 400px; height: 400px;align:center; margin: 0 auto"></div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">// <![CDATA[
@@ -343,14 +349,14 @@ Note:Only Manually executed status of the project are shown.
                     renderTo:'container2',
                     type: 'column',
 					width: 800,
-                    marginRight: 100,
-                    marginBottom: 25
+                    marginRight: 130,
+                    marginBottom: 45
                 },
 				 credits: {
                         enabled: false
                 },
                 title: {
-                    text: 'Project_Testplan Trend',
+                    text: 'Project_Test Plan Trend',
                     x: -10 //center
                 },
                 subtitle: {
@@ -359,13 +365,15 @@ Note:Only Manually executed status of the project are shown.
                 },
                 xAxis: {
 					title: {
-                text: 'TestPlans'
+                text: 'Test Plans'
             },
                     categories: []
                 },
                 yAxis: {
+					 min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -387,7 +395,12 @@ Note:Only Manually executed status of the project are shown.
                 },
                  plotOptions: {
                     column: {
-                        stacking: 'percent',
+                        stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
+						
                         
                     },
 					series: {
@@ -434,14 +447,14 @@ var val = $('#testproject').val();
 					
                     marginRight: 130,
 					marginup: 20,
-                    marginBottom: 25
+                    marginBottom: 55
 					
                 },
 				 credits: {
                         enabled: false
                 },
                 title: {
-                    text: 'Execution Status(Manual)',
+                    text: 'Execution Status (Manual)',
                     x: -10 //center
                 },
                 subtitle: {
@@ -450,13 +463,16 @@ var val = $('#testproject').val();
                 },
                 xAxis: {
 					title: {
-                text: 'TestPlans'
+                text: 'Test Plans'
             },
+			
                     categories: []
                 },
                 yAxis: {
+					min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -478,7 +494,11 @@ var val = $('#testproject').val();
                 },
                  plotOptions: {
                     column: {
-                        stacking: 'percent',
+                        stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                        
                     },
 					series: {
@@ -514,14 +534,14 @@ var val = $('#testproject').val();
 					width: 800,
 					
                     marginRight: 130,
-                    marginBottom: 25
+                    marginBottom: 55
 					
                 },
 				 credits: {
                         enabled: false
                 },
                 title: {
-                    text: 'Execution Status(Automation)',
+                    text: 'Execution Status (Automation)',
                     x: -10 //center
                 },
                 subtitle: {
@@ -530,14 +550,16 @@ var val = $('#testproject').val();
                 },
                 xAxis: {
 					title: {
-                text: 'Projects'
+                text: 'Test Plans'
             },
 					
                     categories: []
                 },
                 yAxis: {
+					 min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -559,7 +581,11 @@ var val = $('#testproject').val();
                 },
                  plotOptions: {
                     column: {
-                        stacking: 'percent',
+                        stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                        
                     },
 					series: {
@@ -633,7 +659,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                     type: 'column',
 					width: 800,
                     marginRight: 130,
-                    marginBottom: 25
+                    marginBottom: 45
 					
 					
 				
@@ -642,7 +668,7 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                         enabled: false
                 },
                 title: {
-                    text: ' Testplan_Build Trend',
+                    text: ' Test Plan_Build Trend',
                     x: -20 //center
                 },
 				 events: {
@@ -662,8 +688,10 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                     categories: []
                 },
                 yAxis: {
+					 min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -686,6 +714,10 @@ url: 'index.php/reportdashboard/getplan/'+testproject_id,
                  plotOptions: {
                     column: {
                         stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                         
                     },
 					series: {
@@ -780,7 +812,7 @@ function openCity(evt, cityName) {
                         enabled: false
                 },
                 title: {
-                    text: 'Automation Status Across Project',
+                    text: 'Execution Status (Automation)',
                     x: -20 //center
                 },
                 subtitle: {
@@ -797,8 +829,10 @@ function openCity(evt, cityName) {
                     categories: []
                 },
                 yAxis: {
+					 min: 0,
+                     tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -821,6 +855,11 @@ function openCity(evt, cityName) {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
+						
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                        
                     },
 					series: {
@@ -854,7 +893,7 @@ function openCity(evt, cityName) {
                         enabled: false
                 },
                 title: {
-                    text: 'Manual Status Across Project',
+                    text: 'Execution Status (Manual)',
                     x: -20 //center
                 },
                 subtitle: {
@@ -868,8 +907,10 @@ function openCity(evt, cityName) {
                     categories: []
                 },
                 yAxis: {
+					min: 0,
+                    tickInterval:1,
                     title: {
-                        text: 'Status'
+                        text: 'Testcase'
                     },
                     plotLines: [{
                         value: 0,
@@ -892,6 +933,10 @@ function openCity(evt, cityName) {
                  plotOptions: {
                     column: {
                         stacking: 'normal',
+						dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'Black'
+                        }
                        
                     },
 					series: {
