@@ -11,6 +11,7 @@ mysql_select_db("testlink", $con);
 mysql_query("SET NAMES 'utf8'", $con);
 mysql_query("SET CHARACTER SET 'utf8'", $con);
 //include_once ('application\view\testchart.php');
+
 $category = array();
 $category['name'] = 'Name';
 
@@ -38,35 +39,38 @@ $countf= 0;
 $countp= 0;
 $countb= 0;
 $plan_id=$_GET['id'];
-
 $sql = "SELECT id,name  FROM `builds` where testplan_id='".$plan_id."'  order by id DESC";
 $result = mysql_query($sql);
-
+//print_r($_GET['id']);
 if ($pro=mysql_num_rows($result) ==0) 
 {
-
-    //echo "No record";
-	   $category['data'][]= 'No Results found';
+        $category['data'][]= 'No Results found';
         $series1['data'][] = '0';
         $series2['data'][] = '0'; 
 		$series3['data'][] = '0';
-   
+    //echo "No record";
+    //exit;
 } else {
 	
     while($row=mysql_fetch_assoc($result)) {
 
-$sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.build_id='".$row['id']."'";
-$result1 = mysql_query($sql1);	
-$row1=mysql_fetch_assoc($result1);
+       $sql1="SELECT executions.testplan_id as id,executions.build_id as build_id,executions.tcversion_id as tcversion_id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$plan_id."' and executions.build_id='".$row['id']."'";
+       $result1 = mysql_query($sql1);	
+       
+	   $row1=mysql_fetch_assoc($result1);
 
         $ss=($row1['id']);
 		if(!empty($row1['id'])){
-        
+        $sql7="SELECT  tcversion_id,testplan_id  FROM `testplan_tcversions` where testplan_id='".$row1['id']."' ";
+		$result7 = mysql_query($sql7);
+        //$report = "";	
+		//$report1 = "";
         $report = array();
 		$report1 = array();		
-	    $sql4="SELECT t.testplan_id,r.status,r.build_id FROM (SELECT testplan_id ,execution_ts,build_id,tcversion_id,status
-        FROM `executions` where testplan_id='".$plan_id."'and build_id= '".$row['id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
-		INNER JOIN executions t ON t.testplan_id='".$plan_id."'GROUP BY r.build_id" ;	
+		while($row7=mysql_fetch_array($result7)){
+	    $sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
+        FROM `executions` where testplan_id='".$row1['id']."'and tcversion_id= '".$row7['tcversion_id']."'and build_id= '".$row1['build_id']."' ORDER BY execution_ts DESC LIMIT 50 )r 
+		INNER JOIN executions t ON t.testplan_id='".$row1['id']."'GROUP BY r.tcversion_id";	
         $result4= mysql_query($sql4);
         $row4=mysql_fetch_assoc($result4);	
         $report[]=  $row4["testplan_id"];
@@ -75,13 +79,15 @@ $row1=mysql_fetch_assoc($result1);
 		$row6[]=implode(",",$report);
 		$row9[]=$row1['id'];
 		$tt[$row4["testplan_id"]][]=$row5;
-        
+        //echo $row4["testplan_id"]->$row4["status"];echo"\n";	
+		}
 		
         $jj=array_slice($tt, -1, 1, true);	
 		$row7=array_slice($row5, -1, 1, true);
 		$row8=array_slice($row6, -1, 1, true);
 		$row10=array_slice($row9, -1, 1, true);
 		$res=array_combine($row10,$row7);
+		
 		if(isset($res[$row1['id']])){
 		$countp=preg_match_all('/' . preg_quote('p', '/') . '/', $res[$row1['id']]);
            
@@ -89,10 +95,9 @@ $row1=mysql_fetch_assoc($result1);
        
 		$countb=preg_match_all('/' . preg_quote('b', '/') . '/', $res[$row1['id']]);	   
 		} 
-
-		//if($row['name']=='No record')   {echo "ll";$countb=0;}
+  
+		   
 		$category['data'][]= $row['name'];
-		
         $series1['data'][] = $countb;
         $series2['data'][] = $countf; 
 		$series3['data'][] = $countp;
@@ -102,12 +107,13 @@ $row1=mysql_fetch_assoc($result1);
 
 }
 $result = array();
-
 array_push($result,$category);
 array_push($result,$series1);
 array_push($result,$series2);
 array_push($result,$series3);
+
 print json_encode($result, JSON_NUMERIC_CHECK);
+
 mysql_close($con);
 
 
