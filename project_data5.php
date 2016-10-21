@@ -1,4 +1,3 @@
-
 <?php
 $con = mysql_connect("localhost","root","");
 //mysql_query("SET NAMES 'utf8'", $dbConn);
@@ -59,7 +58,7 @@ if ($pro=mysql_num_rows($result) ==0)
 $sql0="SELECT id  FROM `nodes_hierarchy` where parent_id='".$row['id']."' and node_type_id='5' order by id DESC LIMIT 1";	
 $result0 = mysql_query($sql0);	
 $row0=mysql_fetch_assoc($result0);
-$sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$row0['id']."'";
+ $sql1="SELECT executions.testplan_id as id FROM nodes_hierarchy JOIN executions ON executions.testplan_id='".$row0['id']."'";
 $result1 = mysql_query($sql1);	
 $row1=mysql_fetch_assoc($result1);
 			
@@ -68,7 +67,7 @@ $row1=mysql_fetch_assoc($result1);
 		$row2=mysql_fetch_assoc($result2);
         $ss=($row1['id']);*/
 		if(!empty($row1['id'])){
-        $sql7="SELECT t.id,t.execution_type,r.testplan_id,r.tcversion_id FROM (SELECT testplan_id ,tcversion_id
+         $sql7="SELECT t.id,t.execution_type,r.testplan_id,r.tcversion_id FROM (SELECT testplan_id ,tcversion_id
 	    FROM `testplan_tcversions` where testplan_id='".$row1['id']."' ORDER BY tcversion_id DESC LIMIT 50 )r INNER JOIN 
 		tcversions t ON t.id=r.tcversion_id and t.execution_type='1' GROUP BY r.tcversion_id  ";
 		$result7 = mysql_query($sql7);
@@ -76,7 +75,16 @@ $row1=mysql_fetch_assoc($result1);
         //$report = "";	
 		//$report1 = "";
         $report = array();
-		$report1 = array();		
+		$report1 = array();
+     if (mysql_num_rows($result7) ==0) 
+{
+        $category['data'][]= 'No Results found';
+        $series1['data'][] = '0';
+        $series2['data'][] = '0'; 
+		$series3['data'][] = '0';
+    //echo "No record";
+   //exit;
+} else {		
 		while($row7=mysql_fetch_array($result7)){
 			
 	    $sql4="SELECT t.testplan_id,r.status,r.tcversion_id FROM (SELECT testplan_id ,execution_ts,tcversion_id,status
@@ -89,14 +97,14 @@ $row1=mysql_fetch_assoc($result1);
 		$row5[]=implode(",",$report1);
 		$row6[]=implode(",",$report);
 		$row9[]=$row1['id'];
-		$tt[$row4["testplan_id"]][]=$row5;
-      
+		//$tt[$row4["testplan_id"]][]=$row5;
+     
 		
 	
         //echo $row4["testplan_id"]->$row4["status"];echo"\n";	
 		}
-		
-        $jj=array_slice($tt, -1, 1, true);	
+
+        //$jj=array_slice($tt, -1, 1, true);	
 		$row7=array_slice($row5, -1, 1, true);
 		$row8=array_slice($row6, -1, 1, true);
 		$row10=array_slice($row9, -1, 1, true);
@@ -120,6 +128,7 @@ $row1=mysql_fetch_assoc($result1);
 		}
 }
 
+}
 }
 $result = array();
 array_push($result,$category);
